@@ -1,0 +1,50 @@
+main{
+    width: 80%;
+    margin:auto;
+}
+
+header{
+    display: flex;
+    justify-content: center;
+}
+
+#titleBook{
+    color: #0e6655
+}
+
+form{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+input{
+    margin-bottom: 20px;
+}
+
+input[type="submit"]{
+    padding: 1%;
+    background-color:   #0e6655;
+    color: white;
+}
+
+label{
+    margin-bottom: 5px;
+}
+
+table, th, td {
+    border: 1px solid black;
+  }
+
+th{
+    /*background-color: #0e6655;
+    color: white;*/
+    text-align: left;
+}
+
+
+table{
+    width: 100%;
+    border-collapse: collapse;
+}  
+
