@@ -21,18 +21,34 @@ function addBookToLibrary(e) {
   const pages = document.querySelector("#pages").value;
   const read = document.querySelector("#read").checked;
 
-  console.log(read);
+  //console.table(myLibrary);
 
-  const book = new Book(isbn, title, author, read, pages);
+  bookFilter = myLibrary.filter(book => book.isbn === isbn);
 
-
-  myLibrary.push(book);
-
-  addBookToTable(book);
-
-  console.log(myLibrary);
+  if(bookFilter.length === 0){
+    const book = new Book(isbn, title, author, read, pages);
 
 
+    myLibrary.push(book);
+    saveLocalStorage()
+    addBookToTable(book);
+
+    //console.log(myLibrary);
+  }else{
+    console.log("Already exist!!!");
+  }
+      
+
+
+}
+
+
+function fillTableFromLocalStorage(){
+  if (myLibrary !== null){
+    myLibrary.forEach(book => {
+      addBookToTable(book);
+    })
+  }
 }
 
 function addBookToTable(book){
@@ -74,13 +90,38 @@ function addBookToTable(book){
 document.querySelector("#form_book").addEventListener("submit", addBookToLibrary);
 
 document.querySelector('#tableBookBody').addEventListener('click', (e) =>{
-  console.log(e.target);
+  //console.log(e.target);
   deleteBook(e.target);
 });
 
 function deleteBook(element){
   if(element.classList.contains('delete')){
     element.parentElement.parentElement.remove();
+    isbnToDelete = element.parentElement.parentElement.children[0].firstChild.nodeValue;
+    myLibrary = myLibrary.filter(book => book.isbn !== isbnToDelete);
+    
+    saveLocalStorage();
+    const table_Tbody = document.querySelector('#tableBookBody');
+    table_Tbody.innerHTML = "";
+    getLocalStorage();
   }
   
 }
+
+//Local storage
+function saveLocalStorage(){
+  localStorage.setItem("myLabrary", JSON.stringify(myLibrary));
+}
+
+function getLocalStorage(){
+  myLibrary = JSON.parse(localStorage.getItem("myLabrary"));
+
+  if(myLibrary === null){
+    myLibrary = []; 
+  }
+
+  fillTableFromLocalStorage();
+  //console.log(myLibrary);
+}
+
+getLocalStorage();
